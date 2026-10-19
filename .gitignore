@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Training artifacts
+outputs/
+checkpoints/
+wandb/
+runs/
+*.safetensors
+*.bin
+*.pt
+
+# Generated data cache
+data/cache/
+
+# Env
+.env
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
