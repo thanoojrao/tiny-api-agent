@@ -3,13 +3,15 @@ episode at a time; this is for checking the loop, not for training."""
 
 from __future__ import annotations
 
+import os
+
 import httpx
 
 
 class OllamaModel:
-    def __init__(self, model: str = "qwen2.5:3b", host: str = "http://localhost:11434", temperature: float = 0.0):
+    def __init__(self, model: str = "qwen2.5:3b", host: str | None = None, temperature: float = 0.0):
         self.name = model
-        self._host = host.rstrip("/")
+        self._host = (host or os.environ.get("OLLAMA_HOST") or "http://localhost:11434").rstrip("/")
         self._temperature = temperature
 
     def complete(self, system: str, messages: list[dict[str, str]]) -> str:

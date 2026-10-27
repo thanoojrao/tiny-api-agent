@@ -15,6 +15,8 @@ import sys
 import time
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from .drift import no_drift
 from .models import load_model
 from .reward import compute_reward
@@ -42,6 +44,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--out", default=None, help="JSONL path for episodes (default runs/<ts>.jsonl)")
     args = p.parse_args(argv)
 
+    load_dotenv()  # reads .env from the project root if present
     spec = ApiSpec.load(args.spec)
     tasks = load_tasks(args.tasks)
     if args.task_id:
