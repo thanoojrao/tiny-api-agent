@@ -1,0 +1,143 @@
+{
+  "name": "Library API",
+  "description": "Catalog and lending for a small library. Books can be checked out by members and returned.",
+  "base_url": "https://library.example.com/v1",
+  "auth": {"header": "Authorization", "scheme": "Bearer", "token": "lib_test_7f3a"},
+  "resources": [
+    {
+      "name": "books",
+      "fields": [
+        {"name": "id", "type": "integer", "description": "Book identifier"},
+        {"name": "title", "type": "string", "description": "Title"},
+        {"name": "author", "type": "string", "description": "Author name"},
+        {"name": "status", "type": "enum", "enum": ["available", "checked_out"], "default": "available", "description": "Lending status"},
+        {"name": "member_id", "type": "integer", "default": null, "description": "Member who has the book, or null"}
+      ]
+    },
+    {
+      "name": "members",
+      "fields": [
+        {"name": "id", "type": "integer", "description": "Member identifier"},
+        {"name": "name", "type": "string", "description": "Full name"},
+        {"name": "email", "type": "string", "description": "Email address"}
+      ]
+    }
+  ],
+  "endpoints": [
+    {
+      "id": "list_books",
+      "method": "GET",
+      "path": "/books",
+      "description": "List books. Filters are exact matches.",
+      "query": [
+        {"name": "status", "type": "enum", "enum": ["available", "checked_out"], "description": "Filter by lending status"},
+        {"name": "author", "type": "string", "description": "Filter by author"},
+        {"name": "title", "type": "string", "description": "Filter by title"},
+        {"name": "limit", "type": "integer", "description": "Max items to return"},
+        {"name": "offset", "type": "integer", "description": "Items to skip"}
+      ],
+      "operation": {"kind": "list", "resource": "books", "filters": ["status", "author", "title"]}
+    },
+    {
+      "id": "get_book",
+      "method": "GET",
+      "path": "/books/{book_id}",
+      "description": "Fetch one book.",
+      "path_params": [{"name": "book_id", "type": "integer"}],
+      "operation": {"kind": "get", "resource": "books", "id_param": "book_id"}
+    },
+    {
+      "id": "create_book",
+      "method": "POST",
+      "path": "/books",
+      "description": "Add a book to the catalog. New books start as available.",
+      "body": [
+        {"name": "title", "type": "string", "required": true},
+        {"name": "author", "type": "string", "required": true}
+      ],
+      "operation": {"kind": "create", "resource": "books"}
+    },
+    {
+      "id": "update_book",
+      "method": "PATCH",
+      "path": "/books/{book_id}",
+      "description": "Update a book's title or author.",
+      "path_params": [{"name": "book_id", "type": "integer"}],
+      "body": [
+        {"name": "title", "type": "string"},
+        {"name": "author", "type": "string"}
+      ],
+      "operation": {"kind": "update", "resource": "books", "id_param": "book_id"}
+    },
+    {
+      "id": "checkout_book",
+      "method": "POST",
+      "path": "/books/{book_id}/checkout",
+      "description": "Check a book out to a member. The book must be available.",
+      "path_params": [{"name": "book_id", "type": "integer"}],
+      "body": [{"name": "member_id", "type": "integer", "required": true, "description": "The borrowing member"}],
+      "operation": {
+        "kind": "action",
+        "resource": "books",
+        "id_param": "book_id",
+        "precondition": {"status": "available"},
+        "sets": {"status": "checked_out", "member_id": "$member_id"}
+      }
+    },
+    {
+      "id": "return_book",
+      "method": "POST",
+      "path": "/books/{book_id}/return",
+      "description": "Return a checked-out book.",
+      "path_params": [{"name": "book_id", "type": "integer"}],
+      "operation": {
+        "kind": "action",
+        "resource": "books",
+        "id_param": "book_id",
+        "precondition": {"status": "checked_out"},
+        "sets": {"status": "available", "member_id": "null"}
+      }
+    },
+    {
+      "id": "list_members",
+      "method": "GET",
+      "path": "/members",
+      "description": "List members. Filters are exact matches.",
+      "query": [
+        {"name": "name", "type": "string", "description": "Filter by full name"},
+        {"name": "email", "type": "string", "description": "Filter by email"}
+      ],
+      "operation": {"kind": "list", "resource": "members", "filters": ["name", "email"]}
+    },
+    {
+      "id": "get_member",
+      "method": "GET",
+      "path": "/members/{member_id}",
+      "description": "Fetch one member.",
+      "path_params": [{"name": "member_id", "type": "integer"}],
+      "operation": {"kind": "get", "resource": "members", "id_param": "member_id"}
+    },
+    {
+      "id": "create_member",
+      "method": "POST",
+      "path": "/members",
+      "description": "Register a new member.",
+      "body": [
+        {"name": "name", "type": "string", "required": true},
+        {"name": "email", "type": "string", "required": true}
+      ],
+      "operation": {"kind": "create", "resource": "members"}
+    }
+  ],
+  "seed": {
+    "books": [
+      {"id": 1, "title": "Dune", "author": "Frank Herbert", "status": "available", "member_id": null},
+      {"id": 2, "title": "Neuromancer", "author": "William Gibson", "status": "checked_out", "member_id": 1},
+      {"id": 3, "title": "Snow Crash", "author": "Neal Stephenson", "status": "available", "member_id": null}
+    ],
+    "members": [
+      {"id": 1, "name": "Alice Chen", "email": "alice@example.com"},
+      {"id": 2, "name": "Bob Okafor", "email": "bob@example.com"}
+    ]
+  }
+}

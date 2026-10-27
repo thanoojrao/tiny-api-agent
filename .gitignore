@@ -26,3 +26,6 @@ data/cache/
 Thumbs.db
 .vscode/
 .idea/
+
+# Eval runs
+runs/

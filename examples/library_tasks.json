@@ -1,0 +1,53 @@
+{
+  "tasks": [
+    {
+      "id": "get_book",
+      "instruction": "Fetch book 1.",
+      "golden": [{"method": "GET", "path": "/books/1"}]
+    },
+    {
+      "id": "list_available",
+      "instruction": "List the books that are currently available.",
+      "golden": [{"method": "GET", "path": "/books", "query": {"status": "available"}}]
+    },
+    {
+      "id": "create_book",
+      "instruction": "Add 'Hyperion' by Dan Simmons to the catalog.",
+      "golden": [{"method": "POST", "path": "/books", "body": {"title": "Hyperion", "author": "Dan Simmons"}}]
+    },
+    {
+      "id": "checkout",
+      "instruction": "Check out book 3 for member 2.",
+      "golden": [{"method": "POST", "path": "/books/3/checkout", "body": {"member_id": 2}}]
+    },
+    {
+      "id": "return",
+      "instruction": "Book 2 has been returned. Record it.",
+      "golden": [{"method": "POST", "path": "/books/2/return"}]
+    },
+    {
+      "id": "update_author",
+      "instruction": "Correct the author of book 1 to 'Frank Herbert'. It should read 'Herbert, Frank'.",
+      "golden": [{"method": "PATCH", "path": "/books/1", "body": {"author": "Herbert, Frank"}}]
+    },
+    {
+      "id": "checkout_by_name",
+      "instruction": "Check out the book titled 'Snow Crash' to the member named 'Bob Okafor'.",
+      "golden": [
+        {"method": "GET", "path": "/books", "query": {"title": "Snow Crash"}},
+        {"method": "GET", "path": "/members", "query": {"name": "Bob Okafor"}},
+        {"method": "POST", "path": "/books/3/checkout", "body": {"member_id": 2}}
+      ]
+    },
+    {
+      "id": "no_fit_delete",
+      "instruction": "Remove book 2 from the catalog entirely.",
+      "golden": null
+    },
+    {
+      "id": "no_fit_conflict",
+      "instruction": "Check out book 2 for member 2.",
+      "golden": null
+    }
+  ]
+}

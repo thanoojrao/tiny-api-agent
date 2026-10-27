@@ -2,7 +2,7 @@
 
 Training a small language model with GRPO to call APIs it has never seen, from documentation that may be wrong.
 
-> Design stage. No code yet; this README is the plan.
+> Early. The end-to-end loop runs against one hand-written API; no generator or training yet.
 
 ## The idea
 
@@ -125,6 +125,40 @@ A frontier model with the spec in its prompt will do a single clean call better 
 
 It is not useful for one-off integrations or for deciding which API to call at all.
 
+## Running
+
+Requires Python 3.12 and [uv](https://docs.astral.sh/uv/). No GPU needed for anything here.
+
+```bash
+uv sync --extra dev
+uv run pytest
+
+# print the exact prompt the executor sees for one task
+uv run python -m tiny_api_agent.eval --spec examples/library.json --tasks examples/library_tasks.json --task-id checkout --dry-run
+
+# run the task set with Claude as the executor (needs ANTHROPIC_API_KEY)
+uv run python -m tiny_api_agent.eval --spec examples/library.json --tasks examples/library_tasks.json --model anthropic:claude-haiku-5-5 --show
+
+# or a local model through Ollama
+uv run python -m tiny_api_agent.eval --spec examples/library.json --tasks examples/library_tasks.json --model ollama:qwen2.5:3b --verbosity 1
+```
+
+`--verbosity 0..3` sets how much the server says on errors. Episodes are written to `runs/*.jsonl`.
+
+The code so far:
+
+| file | what |
+|---|---|
+| `tiny_api_agent/schema.py` | the true API schema: resources, endpoints, operations, seed data |
+| `tiny_api_agent/server.py` | generic in-process mock server: routing, auth, strict validation, state, error verbosity |
+| `tiny_api_agent/render.py` | schema to markdown docs the model reads |
+| `tiny_api_agent/drift.py` | spec corruptions (identity only, for now) |
+| `tiny_api_agent/rollout.py` | one episode: prompt, parse, request, feed back, until final or budget |
+| `tiny_api_agent/reward.py` | replay golden requests on a fresh server, compare state and data |
+| `tiny_api_agent/eval.py` | run a task file against a model, print success rate |
+| `examples/library.json` | one hand-written API with 9 endpoints and seed data |
+| `examples/library_tasks.json` | 9 tasks including a multi-call one and two no-fit cases |
+
 ## References
 
 - [ToolRL: Reward is All Tool Learning Needs](https://arxiv.org/abs/2504.13958)
@@ -139,10 +173,10 @@ A longer, ordered reading list with notes is in [docs/reading.md](docs/reading.m
 ## Roadmap
 
 - [ ] API grammar and generator, with a diversity check on sampled specs
-- [ ] Generic mock server with strict validation and error verbosity levels
+- [x] Generic mock server with strict validation and error verbosity levels
 - [ ] Drift transformations with holdout bookkeeping
-- [ ] Rollout harness with loss masking of server responses
-- [ ] Reward function and the two reward variants
+- [x] Rollout harness that keeps model turns and server turns separate (loss masking happens in the trainer)
+- [x] Reward function (dense variant); binary variant still to add
 - [ ] Evaluation suite, run on the base model before any training
 - [ ] GRPO on clean specs
 - [ ] Drift curriculum
