@@ -49,9 +49,13 @@ class Request:
         missing optional keys.
         """
         raw_path = str(d.get("path") or d.get("url") or "")
-        parsed = urlparse(raw_path)
-        path = parsed.path or "/"
-        query = dict(parse_qsl(parsed.query)) if parsed.query else {}
+        try:
+            parsed = urlparse(raw_path)
+            path = parsed.path or "/"
+            query = dict(parse_qsl(parsed.query)) if parsed.query else {}
+        except ValueError:
+            # e.g. "http://[bad": a model's malformed URL must become a routing miss, not an exception
+            path, query = raw_path or "/", {}
         extra_q = d.get("query") or d.get("params") or {}
         if isinstance(extra_q, dict):
             query.update(extra_q)
@@ -299,6 +303,9 @@ class MockServer:
             total = len(items)
             offset = int(params.get("offset", 0) or 0)
             limit = params.get("limit")
+            paging = [(n, v) for n, v in (("offset", offset), ("limit", limit)) if v is not None and int(v) < 0]
+            if paging:
+                raise _Reject(400, [Detail(f"query parameter '{n}' must not be negative (got {v})") for n, v in paging])
             items = items[offset:]
             if limit is not None:
                 items = items[: int(limit)]
@@ -307,7 +314,7 @@ class MockServer:
         if op.kind == "update":
             rec = lookup()
             for name, value in params.items():
-                if name == op.id_param:
+                if name == op.id_param or name == res.id_field:  # the key must never drift from the record
                     continue
                 if res.field(name) is not None:
                     rec[name] = value
@@ -361,6 +368,12 @@ class MockServer:
 
 
 def _eq(a: Any, b: Any) -> bool:
+    """Loose equality for filters and preconditions: "2" matches 2, but None matches only None
+    and booleans never match integers."""
+    if a is None or b is None:
+        return a is b
+    if isinstance(a, bool) != isinstance(b, bool):
+        return False
     if a == b:
         return True
     return str(a) == str(b)

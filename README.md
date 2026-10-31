@@ -24,12 +24,13 @@ The training signal is execution-grounded. Nothing is compared to a reference tr
 
 - a task instruction, phrased the way an orchestrator would phrase it (terse, occasionally underspecified)
 - the full spec of **one** API, all endpoints, in some documentation format
-- auth context and any identifiers already resolved upstream
+- auth context, and any facts already resolved upstream (a "Known" block: ids, emails, dates an orchestrator relays)
 
 **Behavior**
 
 - makes HTTP requests against the API, reads responses, repairs on errors
-- stops when done or when it hits a hard request budget
+- may send several independent requests in one turn; they run in order and are all answered together
+- stops when done or when it hits a hard budget of turns (default 5)
 - never sees other APIs in the same episode
 
 **Output**
@@ -68,7 +69,7 @@ Six pieces. Two of them are most of the work.
 |---|---|---|
 | **Task and spec generator** | Produces episodes: a synthetic API with its true schema, a drifted spec to show the model, an orchestrator-style instruction, and the expected end state. Enforces held-out API families and held-out drift patterns. | Large |
 | **Environment** | One generic mock server driven by any true schema. Strict validation, per-episode state, configurable error verbosity. Resettable and fast. | Large |
-| **Rollout harness** | Runs one episode: builds the prompt, parses model output into a request, sends it, appends the response, loops until done or out of budget. Records which tokens were model-generated so server responses are masked from the loss. | Medium |
+| **Rollout harness** | Runs one episode: builds the prompt, parses each model turn into one or more requests (or a final answer), runs them in order, appends all responses in one server turn, loops until a final answer or the turn budget. Records which tokens were model-generated so server responses are masked from the loss. | Medium |
 | **Reward function** | Reads final server state and the model's structured output, returns a scalar. Cheap and hard to game. | Small |
 | **Trainer** | GRPO with LoRA. TRL to start, verl if multi-turn rollouts outgrow it. | Small |
 | **Evaluation suite** | Held-out APIs, success rate broken out by drift level and error verbosity, for the base model, the trained model, and a frontier model. Built before training starts. | Medium |
@@ -149,15 +150,17 @@ The code so far:
 
 | file | what |
 |---|---|
-| `tiny_api_agent/schema.py` | the true API schema: resources, endpoints, operations, seed data |
-| `tiny_api_agent/server.py` | generic in-process mock server: routing, auth, strict validation, state, error verbosity |
-| `tiny_api_agent/render.py` | schema to markdown docs the model reads |
-| `tiny_api_agent/drift.py` | spec corruptions (identity only, for now) |
-| `tiny_api_agent/rollout.py` | one episode: prompt, parse, request, feed back, until final or budget |
-| `tiny_api_agent/reward.py` | replay golden requests on a fresh server, compare state and data |
+| `tiny_api_agent/env/schema.py` | the true API schema: resources, endpoints, operations, seed data |
+| `tiny_api_agent/env/server.py` | generic in-process mock server: routing, auth, strict validation, state, error verbosity |
+| `tiny_api_agent/env/render.py` | schema to markdown docs the model reads |
+| `tiny_api_agent/env/drift.py` | spec corruptions (identity only, for now) |
+| `tiny_api_agent/roles/executor.py` | one executor episode: prompt, parse, request, feed back, until final or budget |
+| `tiny_api_agent/reward/executor.py` | replay golden requests on a fresh server, compare state and data |
 | `tiny_api_agent/eval.py` | run a task file against a model, print success rate |
 | `examples/library.json` | one hand-written API with 9 endpoints and seed data |
 | `examples/library_tasks.json` | 9 tasks including a multi-call one and two no-fit cases |
+
+Packages are laid out by role so later work has a home: `env/` is the world, `roles/` holds the executor now and the orchestrator later, `reward/` the same, `gen/` will hold the generator.
 
 ## References
 

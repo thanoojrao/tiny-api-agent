@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from tiny_api_agent.schema import ApiSpec
-from tiny_api_agent.server import MockServer, Request
+from tiny_api_agent.env.schema import ApiSpec
+from tiny_api_agent.env.server import MockServer, Request
 
 SPEC = ApiSpec.load(Path(__file__).parent.parent / "examples" / "library.json")
 AUTH = {"Authorization": "Bearer lib_test_7f3a"}
@@ -98,6 +98,19 @@ def test_query_type_coercion_and_enum():
     assert r.status == 200 and len(r.body["items"]) == 1 and r.body["total"] == 3
     r = s.handle(Request("GET", "/books", headers=AUTH, query={"status": "lost"}))
     assert r.status == 400
+
+
+def test_negative_paging_is_rejected():
+    r = srv().handle(Request("GET", "/books", headers=AUTH, query={"offset": "-1"}))
+    assert r.status == 400 and "offset" in r.body["details"][0]["message"]
+    r = srv().handle(Request("GET", "/books", headers=AUTH, query={"limit": "-1"}))
+    assert r.status == 400
+
+
+def test_filter_equality_is_not_fooled_by_none_or_booleans():
+    from tiny_api_agent.env.server import _eq
+    assert _eq(2, "2") and _eq(None, None)
+    assert not _eq(None, "None") and not _eq(1, True) and not _eq("1", True)
 
 
 def test_path_param_type_checked():
