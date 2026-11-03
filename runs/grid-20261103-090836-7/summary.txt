@@ -1,0 +1,45 @@
+d=0 v=3 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=3 drift=0  success 2/9 (22%)  mean score +0.267  mean turns 2.22  mean requests 3.56
+        repair-only: 0/2 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=0 v=2 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=2 drift=0  success 1/9 (11%)  mean score +0.228  mean turns 1.78  mean requests 2.78
+        repair-only: 0/1 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=0 v=1 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=1 drift=0  success 1/9 (11%)  mean score +0.206  mean turns 2.22  mean requests 3.22
+        repair-only: 0/1 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=0 v=0 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=0 drift=0  success 1/9 (11%)  mean score +0.206  mean turns 2.11  mean requests 3.22
+        repair-only: 0/1 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=1 v=3 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=3 drift=1  success 0/9 (0%)  mean score +0.056  mean turns 2.33  mean requests 3.44
+        clean: none  drifted 0/9 (0%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=1 v=2 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=2 drift=1  success 0/9 (0%)  mean score +0.056  mean turns 2.33  mean requests 3.44
+        clean: none  drifted 0/9 (0%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=1 v=1 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=1 drift=1  success 0/9 (0%)  mean score +0.039  mean turns 2.78  mean requests 3.78
+        clean: none  drifted 0/9 (0%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=1 v=0 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=0 drift=1  success 0/9 (0%)  mean score +0.017  mean turns 3.00  mean requests 4.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=2 v=3 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=3 drift=2  success 1/9 (11%)  mean score +0.044  mean turns 2.44  mean requests 5.67
+        clean: none  drifted 1/9 (11%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=2 v=2 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=2 drift=2  success 1/9 (11%)  mean score +0.117  mean turns 2.67  mean requests 4.22
+        clean: none  drifted 1/9 (11%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=2 v=1 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=1 drift=2  success 2/9 (22%)  mean score +0.200  mean turns 3.00  mean requests 4.56
+        clean: none  drifted 2/9 (22%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=2 v=0 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=0 drift=2  success 1/9 (11%)  mean score +0.111  mean turns 2.44  mean requests 3.89
+        clean: none  drifted 1/9 (11%)
+        repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=3 v=3 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=3 drift=3  success 2/9 (22%)  mean score +0.161  mean turns 3.22  mean requests 5.00
+        clean: none  drifted 2/9 (22%)
+        repair-only: 1/6 doable tasks with a rejected request still succeeded (17%); no-fit tasks excluded
+d=3 v=2 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=2 drift=3  success 2/9 (22%)  mean score +0.117  mean turns 3.11  mean requests 5.22
+        clean: none  drifted 2/9 (22%)
+        repair-only: 1/6 doable tasks with a rejected request still succeeded (17%); no-fit tasks excluded
+d=3 v=1 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=1 drift=3  success 1/9 (11%)  mean score +0.089  mean turns 2.78  mean requests 4.22
+        clean: none  drifted 1/9 (11%)
+        repair-only: 0/6 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=3 v=0 rc=0 | model=Qwen/Qwen2.5-3B-Instruct verbosity=0 drift=3  success 2/9 (22%)  mean score +0.144  mean turns 3.00  mean requests 4.89
+        clean: none  drifted 2/9 (22%)
+        repair-only: 0/6 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+grid -> runs/grid-20261103-090836-7

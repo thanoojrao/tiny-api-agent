@@ -1,0 +1,13 @@
+PASS  get_book               turns=1 reqs=1  score=+1.00  stop=final   2.2s
+PASS  list_available         turns=1 reqs=1  score=+1.00  stop=final   2.0s
+PASS  create_book            turns=1 reqs=1  score=+1.00  stop=final   2.8s
+PASS  checkout               turns=1 reqs=1  score=+1.00  stop=final   1.9s
+PASS  return                 turns=1 reqs=1  score=+1.00  stop=final   2.7s
+PASS  update_author          turns=1 reqs=1  score=+1.00  stop=final   2.9s
+PASS  checkout_by_name       turns=2 reqs=3  score=+1.00  stop=final   3.0s
+PASS  no_fit_delete          turns=1 reqs=1  score=+1.00  stop=final   2.2s
+PASS  no_fit_conflict        turns=2 reqs=2  score=+1.00  stop=final   2.4s
+
+model=claude-haiku-5-5 verbosity=1 drift=0  success 9/9 (100%)  mean score +1.000  mean turns 1.22  mean requests 1.33
+repair-only: no doable task had a rejected request (nothing to repair in this run)
+episodes -> runs\grid-20261031-171113-7\d0-v1.jsonl

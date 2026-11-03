@@ -1,0 +1,14 @@
+FAIL  get_book               turns=4 reqs=4  score=+0.15  stop=final  10.3s unrepaired  drift=swap_method,move_endpoint,auth_header
+FAIL  list_available         turns=3 reqs=3  score=+0.20  stop=final   8.5s unrepaired  drift=auth_header,rename_param,rename_enum
+FAIL  create_book            turns=3 reqs=3  score=+0.20  stop=final   9.1s unrepaired  drift=auth_header,unrequire_param,move_endpoint
+FAIL  checkout               turns=5 reqs=5  score=-0.10  stop=final   8.0s unrepaired  drift=move_endpoint,unrequire_param,swap_method
+FAIL  return                 turns=4 reqs=4  score=-0.05  stop=final  11.7s unrepaired  drift=move_endpoint,auth_header,swap_method
+FAIL  update_author          turns=5 reqs=7  score=-0.20  stop=final  11.4s unrepaired  drift=auth_header,swap_method,move_endpoint
+FAIL  checkout_by_name       turns=3 reqs=5  score=+0.20  stop=final   7.9s unrepaired  drift=move_endpoint,swap_method,auth_header
+PASS  no_fit_delete          turns=1 reqs=1  score=+1.00  stop=final  13.4s  drift=hide_param,auth_header,move_endpoint
+PASS  no_fit_conflict        turns=3 reqs=3  score=+0.95  stop=final   9.7s  drift=hide_param,auth_header,move_endpoint
+
+model=claude-haiku-5-5 verbosity=1 drift=3  success 2/9 (22%)  mean score +0.261  mean turns 3.44  mean requests 3.89
+clean: none  drifted 2/9 (22%)
+repair-only: 0/7 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+episodes -> runs\grid-20261031-171113-7\d3-v1.jsonl

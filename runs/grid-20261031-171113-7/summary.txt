@@ -1,0 +1,45 @@
+d=0 v=3 rc=0 | model=claude-haiku-5-5 verbosity=3 drift=0  success 9/9 (100%)  mean score +1.000  mean turns 1.22  mean requests 1.33
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=0 v=2 rc=0 | model=claude-haiku-5-5 verbosity=2 drift=0  success 9/9 (100%)  mean score +0.994  mean turns 1.33  mean requests 1.44
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=0 v=1 rc=0 | model=claude-haiku-5-5 verbosity=1 drift=0  success 9/9 (100%)  mean score +1.000  mean turns 1.22  mean requests 1.33
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=0 v=0 rc=1 | model=claude-haiku-5-5 verbosity=0 drift=0  success 8/8 (100%)  mean score +0.994  mean turns 1.50  mean requests 1.62  errors 1
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=1 v=3 rc=0 | model=claude-haiku-5-5 verbosity=3 drift=1  success 6/9 (67%)  mean score +0.667  mean turns 2.33  mean requests 2.44
+        clean: none  drifted 6/9 (67%)
+        repair-only: 4/7 doable tasks with a rejected request still succeeded (57%); no-fit tasks excluded
+d=1 v=2 rc=0 | model=claude-haiku-5-5 verbosity=2 drift=1  success 6/9 (67%)  mean score +0.667  mean turns 2.33  mean requests 2.44
+        clean: none  drifted 6/9 (67%)
+        repair-only: 4/7 doable tasks with a rejected request still succeeded (57%); no-fit tasks excluded
+d=1 v=1 rc=0 | model=claude-haiku-5-5 verbosity=1 drift=1  success 4/9 (44%)  mean score +0.489  mean turns 2.89  mean requests 3.00
+        clean: none  drifted 4/9 (44%)
+        repair-only: 2/7 doable tasks with a rejected request still succeeded (29%); no-fit tasks excluded
+d=1 v=0 rc=0 | model=claude-haiku-5-5 verbosity=0 drift=1  success 5/9 (56%)  mean score +0.556  mean turns 3.00  mean requests 3.11
+        clean: none  drifted 5/9 (56%)
+        repair-only: 3/7 doable tasks with a rejected request still succeeded (43%); no-fit tasks excluded
+d=2 v=3 rc=0 | model=claude-haiku-5-5 verbosity=3 drift=2  success 6/9 (67%)  mean score +0.650  mean turns 2.67  mean requests 2.78
+        clean: none  drifted 6/9 (67%)
+        repair-only: 4/7 doable tasks with a rejected request still succeeded (57%); no-fit tasks excluded
+d=2 v=2 rc=0 | model=claude-haiku-5-5 verbosity=2 drift=2  success 6/9 (67%)  mean score +0.633  mean turns 3.11  mean requests 3.22
+        clean: none  drifted 6/9 (67%)
+        repair-only: 4/7 doable tasks with a rejected request still succeeded (57%); no-fit tasks excluded
+d=2 v=1 rc=0 | model=claude-haiku-5-5 verbosity=1 drift=2  success 4/9 (44%)  mean score +0.450  mean turns 3.44  mean requests 3.67
+        clean: none  drifted 4/9 (44%)
+        repair-only: 2/7 doable tasks with a rejected request still succeeded (29%); no-fit tasks excluded
+d=2 v=0 rc=0 | model=claude-haiku-5-5 verbosity=0 drift=2  success 4/9 (44%)  mean score +0.433  mean turns 3.44  mean requests 3.56
+        clean: none  drifted 4/9 (44%)
+        repair-only: 2/7 doable tasks with a rejected request still succeeded (29%); no-fit tasks excluded
+d=3 v=3 rc=0 | model=claude-haiku-5-5 verbosity=3 drift=3  success 4/9 (44%)  mean score +0.428  mean turns 3.44  mean requests 3.67
+        clean: none  drifted 4/9 (44%)
+        repair-only: 2/7 doable tasks with a rejected request still succeeded (29%); no-fit tasks excluded
+d=3 v=2 rc=0 | model=claude-haiku-5-5 verbosity=2 drift=3  success 5/9 (56%)  mean score +0.522  mean turns 3.33  mean requests 3.78
+        clean: none  drifted 5/9 (56%)
+        repair-only: 3/7 doable tasks with a rejected request still succeeded (43%); no-fit tasks excluded
+d=3 v=1 rc=0 | model=claude-haiku-5-5 verbosity=1 drift=3  success 2/9 (22%)  mean score +0.261  mean turns 3.44  mean requests 3.89
+        clean: none  drifted 2/9 (22%)
+        repair-only: 0/7 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+d=3 v=0 rc=0 | model=claude-haiku-5-5 verbosity=0 drift=3  success 2/9 (22%)  mean score +0.278  mean turns 3.11  mean requests 3.56
+        clean: none  drifted 2/9 (22%)
+        repair-only: 0/7 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+grid -> runs/grid-20261031-171113-7

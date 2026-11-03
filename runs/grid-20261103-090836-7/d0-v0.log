@@ -1,0 +1,13 @@
+FAIL  get_book               turns=2 reqs=2  score=+0.25  stop=final   1.6s
+PASS  list_available         turns=1 reqs=1  score=+1.00  stop=final   1.5s
+FAIL  create_book            turns=1 reqs=1  score=+0.30  stop=final   0.8s
+FAIL  checkout               turns=1 reqs=1  score=+0.30  stop=final   0.8s
+FAIL  return                 turns=0 reqs=0  score=+0.00  stop=parse   1.7s
+FAIL  update_author          turns=1 reqs=1  score=+0.30  stop=final   0.8s
+FAIL  checkout_by_name       turns=5 reqs=5  score=+0.20  stop=final   4.8s unrepaired
+FAIL  no_fit_delete          turns=5 reqs=12  score=-0.40  stop=final   6.7s
+FAIL  no_fit_conflict        turns=3 reqs=6  score=-0.10  stop=final   4.8s
+
+model=Qwen/Qwen2.5-3B-Instruct verbosity=0 drift=0  success 1/9 (11%)  mean score +0.206  mean turns 2.11  mean requests 3.22
+repair-only: 0/1 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+episodes -> runs/grid-20261103-090836-7/d0-v0.jsonl

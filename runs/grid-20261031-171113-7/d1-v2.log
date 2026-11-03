@@ -1,0 +1,14 @@
+PASS  get_book               turns=2 reqs=2  score=+0.95  stop=final   2.7s repaired  drift=swap_method
+FAIL  list_available         turns=2 reqs=2  score=+0.25  stop=final   3.8s unrepaired  drift=auth_header
+PASS  create_book            turns=2 reqs=2  score=+0.95  stop=final   4.0s repaired  drift=auth_header
+FAIL  checkout               turns=4 reqs=4  score=-0.05  stop=final   6.2s unrepaired  drift=move_endpoint
+FAIL  return                 turns=3 reqs=3  score=+0.00  stop=final   5.8s unrepaired  drift=move_endpoint
+PASS  update_author          turns=2 reqs=2  score=+0.95  stop=final   2.9s repaired  drift=auth_header
+PASS  checkout_by_name       turns=3 reqs=4  score=+0.95  stop=final   4.0s repaired  drift=move_endpoint
+PASS  no_fit_delete          turns=1 reqs=1  score=+1.00  stop=final   3.4s  drift=hide_param
+PASS  no_fit_conflict        turns=2 reqs=2  score=+1.00  stop=final   4.0s  drift=hide_param
+
+model=claude-haiku-5-5 verbosity=2 drift=1  success 6/9 (67%)  mean score +0.667  mean turns 2.33  mean requests 2.44
+clean: none  drifted 6/9 (67%)
+repair-only: 4/7 doable tasks with a rejected request still succeeded (57%); no-fit tasks excluded
+episodes -> runs\grid-20261031-171113-7\d1-v2.jsonl

@@ -1,0 +1,14 @@
+FAIL  get_book               turns=0 reqs=0  score=+0.00  stop=parse   1.5s  drift=swap_method,move_endpoint
+FAIL  list_available         turns=3 reqs=3  score=+0.20  stop=final   1.9s unrepaired  drift=auth_header,rename_param
+FAIL  create_book            turns=2 reqs=2  score=+0.25  stop=final   1.6s unrepaired  drift=auth_header,unrequire_param
+FAIL  checkout               turns=3 reqs=6  score=-0.15  stop=final   4.0s unrepaired  drift=move_endpoint,unrequire_param
+FAIL  return                 turns=0 reqs=0  score=+0.00  stop=parse   1.6s  drift=move_endpoint,auth_header
+FAIL  update_author          turns=4 reqs=4  score=+0.15  stop=final   2.7s unrepaired  drift=auth_header,swap_method
+FAIL  checkout_by_name       turns=3 reqs=6  score=+0.15  stop=final   4.2s unrepaired  drift=move_endpoint,swap_method
+FAIL  no_fit_delete          turns=4 reqs=8  score=-0.20  stop=final   4.5s  drift=hide_param,auth_header
+PASS  no_fit_conflict        turns=5 reqs=9  score=+0.65  stop=final   6.2s  drift=hide_param,auth_header
+
+model=Qwen/Qwen2.5-3B-Instruct verbosity=2 drift=2  success 1/9 (11%)  mean score +0.117  mean turns 2.67  mean requests 4.22
+clean: none  drifted 1/9 (11%)
+repair-only: 0/5 doable tasks with a rejected request still succeeded (0%); no-fit tasks excluded
+episodes -> runs/grid-20261103-090836-7/d2-v2.jsonl

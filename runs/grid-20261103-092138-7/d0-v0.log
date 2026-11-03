@@ -1,0 +1,13 @@
+FAIL  get_book               turns=0 reqs=0  score=+0.00  stop=parse   0.4s
+FAIL  list_available         turns=0 reqs=0  score=+0.00  stop=parse   0.5s
+FAIL  create_book            turns=0 reqs=0  score=+0.00  stop=parse   1.3s
+FAIL  checkout               turns=0 reqs=0  score=+0.00  stop=parse   0.5s
+FAIL  return                 turns=0 reqs=0  score=+0.00  stop=parse   0.7s
+FAIL  update_author          turns=0 reqs=0  score=+0.00  stop=parse   0.4s
+FAIL  checkout_by_name       turns=0 reqs=0  score=+0.00  stop=parse   0.5s
+FAIL  no_fit_delete          turns=0 reqs=0  score=+0.00  stop=parse   0.6s
+FAIL  no_fit_conflict        turns=0 reqs=0  score=+0.00  stop=parse   0.5s
+
+model=Qwen/Qwen2.5-1.5B-Instruct verbosity=0 drift=0  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+repair-only: no doable task had a rejected request (nothing to repair in this run)
+episodes -> runs/grid-20261103-092138-7/d0-v0.jsonl

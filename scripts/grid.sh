@@ -7,6 +7,7 @@ SEED="${2:-7}"
 PY=".venv/Scripts/python.exe"; [ -x "$PY" ] || PY=".venv/bin/python"; [ -x "$PY" ] || PY="python"
 OUT="runs/grid-$(date +%Y%m%d-%H%M%S)-$SEED"
 mkdir -p "$OUT"
+{
 for d in 0 1 2 3; do
   for v in 3 2 1 0; do
     f="$OUT/d${d}-v${v}"
@@ -16,4 +17,5 @@ for d in 0 1 2 3; do
     grep -E '^(clean|repair-only)' "$f.log" | sed 's/^/        /'
   done
 done
+} | tee "$OUT/summary.txt"
 echo "grid -> $OUT"

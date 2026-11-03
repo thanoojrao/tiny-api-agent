@@ -51,5 +51,5 @@ cat <<MSG
 
 ready. baseline grid (seed 7, same as the Haiku run):
   scripts/grid.sh vllm:$MODEL 7
-stop the server:  pkill -f "vllm serve"
+stop the server:  pkill -f "[v]llm serve"   # bracket so the pattern cannot match its own shell
 MSG

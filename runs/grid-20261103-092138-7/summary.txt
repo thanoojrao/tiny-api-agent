@@ -1,0 +1,45 @@
+d=0 v=3 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=3 drift=0  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=0 v=2 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=2 drift=0  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=0 v=1 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=1 drift=0  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=0 v=0 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=0 drift=0  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=1 v=3 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=3 drift=1  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=1 v=2 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=2 drift=1  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=1 v=1 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=1 drift=1  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=1 v=0 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=0 drift=1  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=2 v=3 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=3 drift=2  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=2 v=2 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=2 drift=2  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=2 v=1 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=1 drift=2  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=2 v=0 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=0 drift=2  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=3 v=3 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=3 drift=3  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=3 v=2 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=2 drift=3  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=3 v=1 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=1 drift=3  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+d=3 v=0 rc=0 | model=Qwen/Qwen2.5-1.5B-Instruct verbosity=0 drift=3  success 0/9 (0%)  mean score +0.000  mean turns 0.00  mean requests 0.00
+        clean: none  drifted 0/9 (0%)
+        repair-only: no doable task had a rejected request (nothing to repair in this run)
+grid -> runs/grid-20261103-092138-7

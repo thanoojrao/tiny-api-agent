@@ -10,7 +10,9 @@ venv/
 outputs/
 checkpoints/
 wandb/
-runs/
+# Ad-hoc eval runs stay local; grid baselines are tracked (summary.txt + per-cell JSONL).
+runs/*
+!runs/grid-*/
 *.safetensors
 *.bin
 *.pt
@@ -28,4 +30,6 @@ Thumbs.db
 .idea/
 
 # Eval runs
-runs/
+# Ad-hoc eval runs stay local; grid baselines are tracked (summary.txt + per-cell JSONL).
+runs/*
+!runs/grid-*/
