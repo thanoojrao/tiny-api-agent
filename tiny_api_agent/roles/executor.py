@@ -159,6 +159,9 @@ def parse_turn(text: str) -> tuple[str, Any]:
     return "requests", payloads
 
 
+REPLY_REMINDER = "Reply now with <request> blocks or a <final> block."
+
+
 def build_user_prompt(
     spec_for_model: ApiSpec,
     task: dict[str, Any],
@@ -176,7 +179,12 @@ def build_user_prompt(
         parts += ["# Known", ""] + [f"- {json.dumps(str(k))}: {json.dumps(v)}" for k, v in facts.items()] + [""]
     if auth_token:
         parts += ["# Credentials", "", f"API token: `{auth_token}`", ""]
-    parts += ["# API documentation", "", render_markdown(spec_for_model)]
+    parts += ["# API documentation", "", render_markdown(spec_for_model), ""]
+    # The docs are long and end in a table, so the model's first token is weakly anchored. On Qwen2.5-3B
+    # the greedy first token after the table was ":request" (a single token in its vocabulary) over "<"
+    # (-0.5 vs -2.0 logprob), and 8/8 samples at T=0.7 failed to parse. This closing line pins it: 8/8
+    # parse. Measured 2026-11-03 on the vLLM pod.
+    parts += [REPLY_REMINDER]
     return "\n".join(parts)
 
 

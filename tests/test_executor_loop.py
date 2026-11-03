@@ -12,7 +12,7 @@ from tiny_api_agent.env.server import MockServer, Request
 from tiny_api_agent.eval import summarize
 from tiny_api_agent.models import ScriptedModel
 from tiny_api_agent.reward.executor import Reward, compute_reward
-from tiny_api_agent.roles.executor import MAX_REQUESTS_PER_TURN, build_user_prompt, parse_turn, run_episode
+from tiny_api_agent.roles.executor import MAX_REQUESTS_PER_TURN, REPLY_REMINDER, build_user_prompt, parse_turn, run_episode
 
 SPEC = ApiSpec.load(Path(__file__).parent.parent / "examples" / "library.json")
 TASKS = {t["id"]: t for t in json.loads((Path(__file__).parent.parent / "examples" / "library_tasks.json").read_text())["tasks"]}
@@ -322,3 +322,10 @@ def test_summarize_repair_only_excludes_no_fit_tasks():
                    _reward(True, had_failure=True, no_fit=True), _reward(True)])
     assert s["n"] == 4 and s["passed"] == 3 and s["repair_candidates"] == 2 and s["repaired"] == 1 and s["repair_rate"] == 0.5
     assert summarize([_reward(True)])["repair_rate"] is None
+
+
+def test_user_prompt_ends_with_the_reply_reminder():
+    # Last line, after the docs: small models anchor their first token on it (see build_user_prompt).
+    prompt = build_user_prompt(SPEC, {"instruction": "x"}, "tok")
+    assert prompt.rstrip().endswith(REPLY_REMINDER)
+    assert prompt.index("# API documentation") < prompt.index(REPLY_REMINDER)
