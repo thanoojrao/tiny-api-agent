@@ -255,10 +255,40 @@ def test_cli_survives_a_failing_episode_and_reports_it(monkeypatch, tmp_path, ca
     assert sum("error" in r for r in rows) == 1 and len(rows) == 9
     assert all(r["schema_version"] == ev.RUN_SCHEMA_VERSION for r in rows)
     episode_row = next(r for r in rows if "episode" in r and "error" not in r)
-    assert set(episode_row) == {"schema_version", "episode", "reward", "model", "verbosity"}
+    assert set(episode_row) == {"schema_version", "episode", "reward", "drift", "model", "verbosity"}
+    assert all(r["drift"] == {"applied": []} for r in rows)  # no --drift: every row says the docs were true
     assert set(episode_row["reward"]) == {"success", "format_ok", "endpoint_hit", "state_ok", "data_ok", "n_requests",
                                           "n_turns", "extra_requests", "had_failure", "no_fit", "score"}
     assert {"stop_reason", "n_turns", "budget", "system", "prompt"} <= set(episode_row["episode"])
+
+
+def test_cli_drift_lands_on_every_task_and_is_recorded_per_row(monkeypatch, tmp_path, capsys):
+    import tiny_api_agent.eval as ev
+
+    class GiveUp:
+        name = "giveup"
+
+        def complete(self, system, messages):
+            return final(ok=False, reason="x")
+
+    monkeypatch.setattr(ev, "load_model", lambda name: GiveUp())
+    root = Path(__file__).parent.parent
+    out = tmp_path / "run.jsonl"
+    args = ["--spec", str(root / "examples/library.json"), "--tasks", str(root / "examples/library_tasks.json"),
+            "--out", str(out), "--model", "stub:x", "--drift", "1", "--seed", "3"]
+    assert ev.main(args) == 0
+    text = capsys.readouterr().out
+    rows = [json.loads(line) for line in out.read_text().splitlines()]
+    assert len(rows) == 9 and all(len(r["drift"]["applied"]) == 1 for r in rows)
+    doable = [r for r in rows if r["episode"]["task"].get("golden")]
+    for r in doable:  # every lie on a doable task is aimed at an endpoint its golden path uses, or is global
+        entry = r["drift"]["applied"][0]
+        aimed = ev.golden_endpoints(ev.ApiSpec.load(root / "examples/library.json"), r["episode"]["task"])
+        assert entry["kind"] == "auth_header" or entry["endpoint"] in aimed
+    assert text.count("  drift=") == 9 and "clean: none  drifted" in text and "verbosity=3 drift=1" in text
+    # same seed, same lies
+    ev.main(args)
+    assert [json.loads(l)["drift"] for l in out.read_text().splitlines()] == [r["drift"] for r in rows]
 
 
 def test_cli_rejects_bad_goldens_before_spending_model_calls(tmp_path, capsys):
@@ -276,6 +306,15 @@ def test_cli_dry_run_formats_the_full_system_prompt(capsys):
     assert main(["--spec", str(root / "examples/library.json"), "--tasks", str(root / "examples/library_tasks.json"), "--dry-run"]) == 0
     out = capsys.readouterr().out
     assert "at most 5 turns of requests" in out and f"at most {MAX_REQUESTS_PER_TURN} per turn" in out and "# Known" not in out
+
+
+def test_summarize_splits_clean_from_drifted():
+    s = summarize([_reward(True), _reward(False), _reward(True)], [False, True, True])
+    assert (s["clean"], s["clean_passed"], s["drifted"], s["drifted_passed"], s["drifted_rate"]) == (1, 1, 2, 1, 0.5)
+    assert summarize([_reward(True)])["drifted_rate"] is None
+    import pytest
+    with pytest.raises(ValueError):
+        summarize([_reward(True)], [True, False])
 
 
 def test_summarize_repair_only_excludes_no_fit_tasks():

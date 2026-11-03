@@ -50,12 +50,17 @@ Everything interesting in this project is controlled by two knobs.
 
 **Spec drift.** How wrong the documentation is relative to the live server. Drift types are applied programmatically to a true schema, so the rate and mix are controllable and whole drift patterns can be held out:
 
-- parameter renamed (`book_id` in docs, `bookId` on the server)
-- optional parameter is actually required
-- endpoint moved (new path, new version prefix)
-- enum gained or lost a value
-- auth requirement enforced but absent from the docs
-- example in the docs omits a required field
+| kind | docs say | server wants | first error at verbosity 3 |
+|---|---|---|---|
+| `rename_param` | `memberId` | `member_id` | 400, unknown field, allowed fields listed |
+| `hide_param` | body has only `title` | `author` is required too | 400, missing required field |
+| `unrequire_param` | `author` optional | required | 400, only if the model omits it |
+| `move_endpoint` | `/v2/books/{id}/checkout` | `/books/{id}/checkout` | 404 |
+| `swap_method` | `PUT /books/{id}` | `PATCH` | 405, allowed methods listed |
+| `rename_enum` | status `on_loan` | `checked_out` | 400, allowed values listed |
+| `auth_header` | `X-API-Key: <token>` | `Authorization: Bearer` | 401 |
+
+The server always runs on the true spec. A transform edits a copy, and the copy is rendered into the docs. Each transform is one function that returns the drifted copy plus a record (kind, endpoint, from, to), or nothing when the spec has no place for that lie. `apply_drift` composes up to N of them from a list of kinds, aimed at the endpoints a task's golden path touches, so a lie always bites. Holding out a kind is leaving it out of the list.
 
 **Error verbosity.** How much the server tells the model when a request fails. Ranges from Stripe-grade error bodies that name the missing field and allowed values, down to a bare `400` with no body.
 
@@ -142,6 +147,9 @@ uv run python -m tiny_api_agent.eval --spec examples/library.json --tasks exampl
 
 # or a local model through Ollama
 uv run python -m tiny_api_agent.eval --spec examples/library.json --tasks examples/library_tasks.json --model ollama:qwen2.5:3b --verbosity 1
+
+# two lies per task in the docs, aimed at each task's endpoints; the run file records which
+uv run python -m tiny_api_agent.eval --spec examples/library.json --tasks examples/library_tasks.json --drift 2 --seed 7 --verbosity 0
 ```
 
 `--verbosity 0..3` sets how much the server says on errors. Episodes are written to `runs/*.jsonl`.
@@ -153,7 +161,7 @@ The code so far:
 | `tiny_api_agent/env/schema.py` | the true API schema: resources, endpoints, operations, seed data |
 | `tiny_api_agent/env/server.py` | generic in-process mock server: routing, auth, strict validation, state, error verbosity |
 | `tiny_api_agent/env/render.py` | schema to markdown docs the model reads |
-| `tiny_api_agent/env/drift.py` | spec corruptions (identity only, for now) |
+| `tiny_api_agent/env/drift.py` | the seven drift transforms, the driver that composes them, and the record that goes into every run row |
 | `tiny_api_agent/roles/executor.py` | one executor episode: prompt, parse, request, feed back, until final or budget |
 | `tiny_api_agent/reward/executor.py` | replay golden requests on a fresh server, compare state and data |
 | `tiny_api_agent/eval.py` | run a task file against a model, print success rate |
