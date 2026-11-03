@@ -12,6 +12,16 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+# GPU box only. Pinned together on 2026-11-03: TRL accepts vLLM 0.22.1..0.32.x, and vLLM 0.32.0
+# pins torch 2.13.0, so these three move as a set. transformers is left to resolve inside
+# vLLM's window. Linux-only because vLLM ships no Windows wheels; `uv sync --extra train` on the pod.
+train = [
+    "torch==2.13.0; sys_platform == 'linux'",
+    "vllm==0.32.0; sys_platform == 'linux'",
+    "trl==1.17.1; sys_platform == 'linux'",
+    "peft==0.21.2; sys_platform == 'linux'",
+    "huggingface-hub>=2.4.0; sys_platform == 'linux'",
+]
 
 [build-system]
 requires = ["hatchling"]

@@ -4,7 +4,7 @@
 set -u
 MODEL="${1:-anthropic:claude-haiku-5-5}"
 SEED="${2:-7}"
-PY=".venv/Scripts/python.exe"; [ -x "$PY" ] || PY="python"
+PY=".venv/Scripts/python.exe"; [ -x "$PY" ] || PY=".venv/bin/python"; [ -x "$PY" ] || PY="python"
 OUT="runs/grid-$(date +%Y%m%d-%H%M%S)-$SEED"
 mkdir -p "$OUT"
 for d in 0 1 2 3; do
